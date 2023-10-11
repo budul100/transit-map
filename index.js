@@ -41,7 +41,9 @@ const runGurobi = (cwd, verbose=false) => {
     // todo: escape paths?
     const problemPath = path.resolve(cwd, 'problem.lp')
     const solutionPath = path.resolve(cwd, 'solution.sol')
-    const gurobiPromise = spawn('gurobi_cl', [`ResultFile=${solutionPath}`, problemPath], {cwd})
+
+    const gurobiPromise = spawn(__dirname + '/cbc.exe',  [problemPath, 'solve', 'solu', solutionPath], {cwd})
+
     if (verbose) gurobiPromise.childProcess.stdout.pipe(process.stderr) // sic.
     gurobiPromise.childProcess.stderr.on('data', e => {throw new Error(e)})
     return gurobiPromise

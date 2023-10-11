@@ -137,11 +137,11 @@ const createGenerateLP = (graph, settings) => (outputStream) => {
     // 1. objective function
     w('Minimize')
         // sum of squared edge length variables l_n
-        const lengths = continuous.l.map(l => `3 ${l} ^ 2`).join(' + ')
+        const lengths = continuous.l.map(l => `3 ${l} ${l}` ).join(' + ')
         // sum of angle differences in all "dimensions"
         const angles = integer.q.map((q, index) => `${4 * coefficients.q[index]} ${q}`).join(' + ')
         // write function
-        wt(`${angles} + [ ${lengths} ] / 2`)
+        wt(`${angles} + (${lengths}) / 2`)
 
     // 2. constraints
     w('Subject To')
