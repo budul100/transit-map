@@ -1,14 +1,14 @@
 'use strict'
 
 const l = require('lodash')
-const parseGurobiSolution = require('parse-gurobi-solution')
+const parseSolution = require('./parse-solution')
 
 const clone = x => JSON.parse(JSON.stringify(x))
 const round = x => l.round(x, 5)
 
 const createReviseSolution = (inputGraph, settings) => async (solutionStream) => {
     const graph = clone(inputGraph)
-    const solution = await parseGurobiSolution(solutionStream)
+    const solution = await  parseSolution(solutionStream)
 
     // write new coordinates
     for (let index in graph.nodes) {
