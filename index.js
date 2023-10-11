@@ -37,16 +37,16 @@ const Solver = (networkGraph) => {
     return ({generateLP, reviseSolution})
 }
 
-const runGurobi = (cwd, verbose=false) => {
+const runSolver = (cwd, verbose=false) => {
     // todo: escape paths?
     const problemPath = path.resolve(cwd, 'problem.lp')
     const solutionPath = path.resolve(cwd, 'solution.sol')
 
-    const gurobiPromise = spawn(__dirname + '/cbc.exe',  [problemPath, 'solve', 'solu', solutionPath], {cwd})
+    const solverPromise = spawn('cbc.exe',  [problemPath, 'solve', 'solu', solutionPath], {cwd})
 
-    if (verbose) gurobiPromise.childProcess.stdout.pipe(process.stderr) // sic.
-    gurobiPromise.childProcess.stderr.on('data', e => {throw new Error(e)})
-    return gurobiPromise
+    if (verbose) solverPromise.childProcess.stdout.pipe(process.stderr) // sic.
+    solverPromise.childProcess.stderr.on('data', e => {throw new Error(e)})
+    return solverPromise
 }
 
 const transitMap = async (networkGraph, opt) => {
@@ -61,7 +61,7 @@ const transitMap = async (networkGraph, opt) => {
     await solver.generateLP(lpStream)
 
     // run solver
-    await (runGurobi(options.workDir, options.verbose).catch(e => {
+    await (runSolver(options.workDir, options.verbose).catch(e => {
         console.error('Make sure `gurobi_cl` is in your $PATH')
         throw new Error(e)
     }))
