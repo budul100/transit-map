@@ -15,7 +15,7 @@ Generate a schematic map (“metro map”) for a given (transit) network graph u
 What you need:
 
 - [`node.js`](http://nodejs.org/) 8.0 or higher installed
-- [`cbc.exe`](https://www.coin-or.org/download/binary/CoinAll/) 1.6 or higher. This file needs to be located in the folder of the 'cli.js'.
+- [`cbc.exe`](https://www.coin-or.org/download/binary/CoinAll/) 1.6 or higher. This file needs to be located in the folder of the `cli.js`.
 
 ## Usage
 
