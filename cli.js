@@ -59,7 +59,7 @@ const main = async () => {
 	const solution = await transitMap(graph, l.pick(config, ['workDir', 'verbose']))
 
 	let result
-	if (config.returnGraph) result = JSON.stringify(graph)
+	if (config.returnGraph) result = JSON.stringify(solution)
 	else {
 		const svg = graphToSVG(solution, config.invertY)
 		result = svgToString(svg)
