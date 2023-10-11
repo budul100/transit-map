@@ -1,0 +1,1 @@
+cat examples\bvg.input.json | node.exe cli.js -y > examples\_output.svg
