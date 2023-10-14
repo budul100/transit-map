@@ -5,6 +5,7 @@ const l = require('lodash')
 const mri = require('mri')
 const getStdin = require('get-stdin')
 const writeFile = require('write')
+const readFile = require('read-file');
 const graphToSVG = require('./write-svg/index')
 const svgToString = require('virtual-dom-stringify')
 
@@ -23,11 +24,12 @@ Usage:
 	cat graph.json | transit-map > network.json
 
 Options:
-	--tmp-dir      -t  Directory to store intermediate files. Default: unique tmp dir.
+	--input-file   -i  File to read graph (instead of stdout).
 	--output-file  -o  File to store result (instead of stdout).
-	--silent       -s  Disable solver logging to stderr.
 	--graph        -g  Return JSON graph instead of SVG map.
 	--invert-y     -y  Invert the Y axis in SVG result.
+	--silent       -s  Disable solver logging to stderr.
+	--tmp-dir      -t  Directory to store intermediate files. Default: unique tmp dir.
 
 	--help         -h  Show this help message.
 	--version      -v  Show the version number.
@@ -46,27 +48,31 @@ if (argv.version === true || argv.v === true) {
 const config = {
 	workDir: argv['tmp-dir'] || argv.t || null,
 	verbose: !(argv.silent || argv.s || null),
+	inputFile: argv['input-file'] || argv.i || null,
 	outputFile: argv['output-file'] || argv.o || null,
 	returnGraph: argv['graph'] || argv.g || false,
 	invertY: argv['invert-y'] || argv.y || false
 }
 
 const main = async () => {
-	const stdin = await getStdin()
-	if (!stdin) throw new Error('No input network found in stdin.')
-    const graph = JSON.parse(stdin)
+	let input
+	if (config.inputFile) input = readFile.sync(config.inputFile)
+	else input = await getStdin()
+
+	if (!input) throw new Error('No input network found.')
+    const graph = JSON.parse(input)
 
 	const solution = await transitMap(graph, l.pick(config, ['workDir', 'verbose']))
 
-	let result
-	if (config.returnGraph) result = JSON.stringify(solution)
+	let output
+	if (config.returnGraph) output = JSON.stringify(solution)
 	else {
 		const svg = graphToSVG(solution, config.invertY)
-		result = svgToString(svg)
+		output = svgToString(svg)
 	}
 
-	if (config.outputFile) await writeFile(outputFile, result)
-	else process.stdout.write(result)
+	if (config.outputFile) await writeFile(config.outputFile, output)
+	else process.stdout.write(output)
 }
 
 main()
