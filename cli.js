@@ -5,7 +5,7 @@ const l = require('lodash')
 const mri = require('mri')
 const getStdin = require('get-stdin')
 const writeFile = require('write')
-const graphToSVG = require('svg-transit-map')
+const graphToSVG = require('./write-svg/index')
 const svgToString = require('virtual-dom-stringify')
 
 const transitMap = require('.')
