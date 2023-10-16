@@ -29,7 +29,7 @@ Options:
 	--source       -s  Return SVG map of source instead of the optimized result.
 	--graph        -g  Return JSON graph instead of SVG map.
 	--invert-y     -y  Invert the Y axis in SVG result.
-	--verbose      -v  Show solver logging to stderr.
+	--log      	   -l  Show solver logging to stderr.
 	--tmp-dir      -t  Directory to store intermediate files. Default: unique tmp dir.
 
 	--help         -h  Show this help message.
@@ -48,8 +48,8 @@ if (argv.version === true || argv.v === true) {
 
 const config = {
 	workDir: argv['tmp-dir'] || argv.t || null,
-	verbose: (argv.verbose || argv.v || null),
-	source: (argv.source || argv.s || null),
+	verbose: (argv.log || argv.l || false),
+	source: (argv.source || argv.s || false),
 	inputFile: argv['input-file'] || argv.i || null,
 	outputFile: argv['output-file'] || argv.o || null,
 	returnGraph: argv['graph'] || argv.g || false,

@@ -1,6 +1,11 @@
-cbc.exe
-deployment
+deployment/cbc.exe
+deployment/Network.json
+deployment/Network_Opti.svg
+deployment/Network_Source.svg
+deployment/TransitMap.exe
 examples/_output.svg
+
+cbc.exe
 
 .DS_Store
 Thumbs.db
@@ -13,8 +18,6 @@ dist
 yarn.lock
 shrinkwrap.yaml
 package-lock.json
-
-gurobi.log
 
 docs/*
 !docs/*.md

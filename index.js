@@ -62,7 +62,7 @@ const transitMap = async (networkGraph, opt) => {
 
     // run solver
     await (runSolver(options.workDir, options.verbose).catch(e => {
-        console.error('Make sure `gurobi_cl` is in your $PATH')
+        console.error('Make sure `cbc.exe` is in your $PATH')
         throw new Error(e)
     }))
 

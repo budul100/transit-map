@@ -8,7 +8,7 @@ const filter = require('through2-filter').obj
 const csv = require('csv-string')
 const toArray = require('get-stream').array
 
-const parseGurobiSolution = async (stream) => {
+const parseSolution = async (stream) => {
     const reader = stream
         .pipe(splitLines())
         .pipe(skipChunks(1))
@@ -25,4 +25,4 @@ const parseGurobiSolution = async (stream) => {
     return solution
 }
 
-module.exports = parseGurobiSolution
+module.exports = parseSolution
