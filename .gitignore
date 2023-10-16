@@ -2,7 +2,7 @@ deployment/cbc.exe
 deployment/Network.json
 deployment/Network_Opti.svg
 deployment/Network_Source.svg
-deployment/TransitMap.exe
+deployment/TransitMapCreator.exe
 examples/_output.svg
 
 cbc.exe
