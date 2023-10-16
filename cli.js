@@ -24,11 +24,12 @@ Usage:
 	cat graph.json | transit-map > network.json
 
 Options:
-	--input-file   -i  File to read graph (instead of stdout).
+	--input-file   -i  File to read graph (instead of stdin).
 	--output-file  -o  File to store result (instead of stdout).
+	--source       -s  Return SVG map of source instead of the optimized result.
 	--graph        -g  Return JSON graph instead of SVG map.
 	--invert-y     -y  Invert the Y axis in SVG result.
-	--silent       -s  Disable solver logging to stderr.
+	--verbose      -v  Show solver logging to stderr.
 	--tmp-dir      -t  Directory to store intermediate files. Default: unique tmp dir.
 
 	--help         -h  Show this help message.
@@ -47,7 +48,8 @@ if (argv.version === true || argv.v === true) {
 
 const config = {
 	workDir: argv['tmp-dir'] || argv.t || null,
-	verbose: !(argv.silent || argv.s || null),
+	verbose: (argv.verbose || argv.v || null),
+	source: (argv.source || argv.s || null),
 	inputFile: argv['input-file'] || argv.i || null,
 	outputFile: argv['output-file'] || argv.o || null,
 	returnGraph: argv['graph'] || argv.g || false,
@@ -62,12 +64,14 @@ const main = async () => {
 	if (!input) throw new Error('No input network found.')
     const graph = JSON.parse(input)
 
-	const solution = await transitMap(graph, l.pick(config, ['workDir', 'verbose']))
+	let result
+	if (config.source) result = graph
+	else result = await transitMap(graph, l.pick(config, ['workDir', 'verbose']))
 
 	let output
-	if (config.returnGraph) output = JSON.stringify(solution)
+	if (config.returnGraph) output = JSON.stringify(result)
 	else {
-		const svg = graphToSVG(solution, config.invertY)
+		const svg = graphToSVG(result, config.invertY)
 		output = svgToString(svg)
 	}
 
