@@ -1,1 +1,1 @@
-pkg -t node18-win-x64 -o ./deployment/TransitMap.exe cli.js
+pkg -t node18-win-x64 -o ./deployment/TransitMapCreator.exe cli.js
