@@ -18,7 +18,7 @@ ECHO.
 
 if %TURNOUTPUT% == true ( TransitMapCreator -i "%INPUT%" -o "%OUTPUTOPTI%" -y -l ) else ( TransitMapCreator -i "%INPUT%" -o "%OUTPUTOPTI%" -l )
 
-START chrome "file://%cd:\=/%/%OUTPUTOPTI%"
 START chrome "file://%cd:\=/%/%OUTPUTSOURCE%"
+START chrome "file://%cd:\=/%/%OUTPUTOPTI%"
 
 PAUSE
